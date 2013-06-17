@@ -1,0 +1,9 @@
+= EffectiveAddresses
+
+This project rocks and uses MIT-LICENSE.
+
+To set up in your main project:
+
+Add to your Gemfile:
+
+  gem 'effective_slugs', :path => "~/Sites/effective_slugs"
