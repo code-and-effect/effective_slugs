@@ -8,10 +8,10 @@ Gem::Specification.new do |s|
   s.name        = "effective_slugs"
   s.version     = EffectiveSlugs::VERSION
   s.email       = ["matthew@agilestyle.com"]
+  s.authors     = ["Matt Riemer"]
   s.homepage    = "http://www.agilestyle.com"
-  s.homepage    = "http://www.agilestyle.com"
-  s.summary     = "TODO: Summary of EffectiveSlugs."
-  s.description = "TODO: Description of EffectiveSlugs."
+  s.summary     = "Summary of EffectiveSlugs."
+  s.description = "Description of EffectiveSlugs."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]

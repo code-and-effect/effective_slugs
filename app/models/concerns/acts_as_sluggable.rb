@@ -156,7 +156,7 @@ module ActsAsSluggable
   end
 
   def should_generate_new_slug?
-    new_record? and !slug.present?
+    slug.blank?
   end
 
   def to_param
