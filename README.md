@@ -105,7 +105,7 @@ Post.where(:slug => 'my-first-post').first
 
 MIT License.  Copyright Code and Effect Inc. http://codeandeffect.com
 
-YOu are not granted rights or licenses to the trademarks of Code and Effect
+You are not granted rights or licenses to the trademarks of Code and Effect
 
 ## Credits
 
