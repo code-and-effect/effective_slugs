@@ -5,7 +5,7 @@ require "effective_slugs/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "Effective Slugs"
+  s.name        = "effective_slugs"
   s.version     = EffectiveSlugs::VERSION
   s.email       = ["info@codeandeffect.com"]
   s.authors     = ["Code and Effect"]
