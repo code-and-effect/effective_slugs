@@ -9,15 +9,19 @@ Rails >= 3.2.x, Ruby >= 1.9.x.  Has not been tested/developed for Rails4.
 
 ## Getting Started
 
-Add to your Gemfile:
+Add to Gemfile:
 
 ```ruby
 gem 'effective_slugs'
 ```
 
-Run the bundle command to install it.
+Run the bundle command to install it:
 
-(optional) If you want control over any excluded slugs, you can run the generator:
+```console
+bundle install
+```
+
+(optional) If you want control over any excluded slugs, run the generator:
 
 ```console
 rails generate effective_slugs:install
@@ -28,13 +32,15 @@ The generator will install an initializer which describes all configuration opti
 
 ## Usage
 
-Add the mixin to your existing model:
+Add the mixin to an existing model:
 
 ```ruby
-acts_as_sluggable
+class Post
+  acts_as_sluggable
+end
 ```
 
-Then create a migration to add the :slug column to your model ('post' in this example).
+Then create a migration to add the :slug column to the model.
 As we're doing lookups on this column, a database index makes a lot of sense too:
 
 ```console
@@ -58,7 +64,7 @@ end
 
 When saving a record that does not have a slug, a slug will be automatically generated and assigned.
 
-You can tweak the behavior, by adding the following instance method to your model:
+Tweak the behavior by adding the following instance method to the model:
 
 ```ruby
 def should_generate_new_slug?
@@ -66,7 +72,7 @@ def should_generate_new_slug?
 end
 ```
 
-The slug is generated based on the slug_source instance method, which you can also override by adding the following to your model:
+The slug is generated based on the slug_source instance method, which can also be overridden by adding the following instance method to the model:
 
 ```ruby
 def slug_source
@@ -103,25 +109,20 @@ Post.where(:slug => 'my-first-post').first
 
 ## License
 
-MIT License.  Copyright Code and Effect Inc. http://codeandeffect.com
+MIT License.  Copyright Code and Effect Inc. http://www.codeandeffect.com
 
 You are not granted rights or licenses to the trademarks of Code and Effect
 
 ## Credits
 
-Some of the code in this gem was based off an old version of FriendlyId (https://github.com/FriendlyId/friendly_id)
+Some of the code in this gem was inspired by an old version of FriendlyId (https://github.com/FriendlyId/friendly_id)
 
+### Testing
 
+The test suite for this gem is unfortunately not yet complete.
 
+Run tests by:
 
-
-
-
-
-
-
-
-
-
-
-
+```ruby
+rake spec
+```
