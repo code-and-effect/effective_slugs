@@ -61,7 +61,7 @@ module ActsAsSluggable
     #attr_accessible :slug
     validates_presence_of :slug
     validates_exclusion_of :slug, :in => EffectiveSlugs.all_excluded_slugs
-    validates_format_of :slug, :with => /^[a-zA-Z0-9_\-]*[a-zA-Z][a-zA-Z0-9_\-]*$/, :message => 'only _ and - symbols allowed'
+    validates_format_of :slug, :with => /\A[a-zA-Z0-9_-]*\z/, :message => 'only _ and - symbols allowed'
 
     if @acts_as_sluggable_opts[:validation_scope]
       validates_uniqueness_of :slug, :scope => @acts_as_sluggable_opts[:validation_scope]
