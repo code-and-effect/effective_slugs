@@ -101,7 +101,7 @@ module ActsAsSluggable
   end
 
   def to_param
-    slug.present? ? "#{id}-#{slug_was}" : id.to_s
+    (slug.present? rescue false) ? "#{id}-#{slug_was}" : super
   end
 
 end
