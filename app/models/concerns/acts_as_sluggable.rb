@@ -58,7 +58,6 @@ module ActsAsSluggable
   included do
     before_validation :set_slug, :if => proc { should_generate_new_slug? }
 
-    #attr_accessible :slug
     validates_presence_of :slug
     validates_exclusion_of :slug, :in => EffectiveSlugs.all_excluded_slugs
     validates_format_of :slug, :with => /\A[a-zA-Z0-9_-]*\z/, :message => 'only _ and - symbols allowed'
@@ -69,64 +68,6 @@ module ActsAsSluggable
       validates_uniqueness_of :slug
     end
 
-    class_eval do
-      class << self
-        alias relation_without_sluggable relation
-      end
-
-      def self.relation
-        @relation = nil unless @relation.class <= relation_class
-        @relation ||= relation_class.new(self, arel_table)
-      end
-
-      # Gets an anonymous subclass of the model's relation class.
-      # This should increase long term compatibility with any gems that also override finder methods
-      # The other idea would be to just return Class.new(ActiveRecord::Relation)
-
-      def self.relation_class
-        @relation_class ||= Class.new(relation_without_sluggable.class) do
-          alias_method :find_one_without_sluggable, :find_one
-          alias_method :exists_without_sluggable?, :exists?
-          include ActsAsSluggable::FinderMethods
-        end
-      end
-    end
-  end
-
-  module ClassMethods
-  end
-
-  # We inject these methods into the ActsAsSluggable.relation class, as below
-  # Allows us to use sluggable id's identically to numeric ids in Finders
-  # And lets all the pages_path() type stuff work
-  #
-  # This makes all these the same:
-  # Post.find(3) == Post.find('post-slug') == Post.find(post)
-  module FinderMethods
-    protected
-
-    # Find one can be passed 4, "my-slug" or <Object>
-    def find_one(id)
-      begin
-        if id.respond_to?(:slug)
-          where(:slug => id.slug).first
-        elsif id.kind_of?(String)
-          where(:slug => id).first
-        end || super
-      rescue => e
-        super
-      end
-    end
-
-    def exists?(id = false)
-      if id.respond_to?(:slug)
-        super :slug => id.slug
-      elsif id.kind_of?(String)
-        super :slug => id
-      else
-        super
-      end
-    end
   end
 
   def set_slug
@@ -160,7 +101,7 @@ module ActsAsSluggable
   end
 
   def to_param
-    slug.present? ? slug_was : id.to_s
+    slug.present? ? "#{id}-#{slug_was}" : id.to_s
   end
 
 end
