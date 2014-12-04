@@ -1,6 +1,6 @@
 # Effective Slugs
 
-Generates a URL-appropriate slug, as required, when saving a record.
+Automatically generate URL-appropriate slugs when saving a record. Rails 3 only.
 
 Also overrides ActiveRecord .find() methods to accept the slug, or an id as the parameter.
 
@@ -117,7 +117,7 @@ You are not granted rights or licenses to the trademarks of Code and Effect
 
 Some of the code in this gem was inspired by an old version of FriendlyId (https://github.com/FriendlyId/friendly_id)
 
-### Testing
+## Testing
 
 The test suite for this gem is unfortunately not yet complete.
 
@@ -126,3 +126,15 @@ Run tests by:
 ```ruby
 rake spec
 ```
+
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Bonus points for test coverage
+6. Create new Pull Request
+
+

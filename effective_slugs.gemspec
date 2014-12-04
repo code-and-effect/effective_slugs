@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.email       = ["info@codeandeffect.com"]
   s.authors     = ["Code and Effect"]
   s.homepage    = "https://github.com/code-and-effect/effective_slugs"
-  s.summary     = "Effectively create url-appropriate slugs for any object"
-  s.description = "Generates a URL-appropriate slug, as required, when saving a record. Also overrides ActiveRecord .find() methods to accept the slug, or an id as the parameter."
+  s.summary     = "Automatically generate URL-appropriate slugs when saving a record. Rails 3 only."
+  s.description = "Automatically generate URL-appropriate slugs when saving a record. Rails 3 only."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
