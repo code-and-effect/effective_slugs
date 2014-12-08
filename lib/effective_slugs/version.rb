@@ -1,3 +1,3 @@
 module EffectiveSlugs
-  VERSION = '1.0.0'.freez
+  VERSION = '1.0.0'.freeze
 end
