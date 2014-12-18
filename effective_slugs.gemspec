@@ -10,13 +10,13 @@ Gem::Specification.new do |s|
   s.email       = ["info@codeandeffect.com"]
   s.authors     = ["Code and Effect"]
   s.homepage    = "https://github.com/code-and-effect/effective_slugs"
-  s.summary     = "Automatically generate URL-appropriate slugs when saving a record. Rails 3 only."
-  s.description = "Automatically generate URL-appropriate slugs when saving a record. Rails 3 only."
+  s.summary     = "Automatically generate URL-appropriate slugs when saving a record."
+  s.description = "Automatically generate URL-appropriate slugs when saving a record."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", ["~> 3.2"]
+  s.add_dependency "rails", [">= 3.2.0"]
 
   # s.add_development_dependency "rspec-rails"
   # s.add_development_dependency "factory_girl_rails"

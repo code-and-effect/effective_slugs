@@ -67,7 +67,6 @@ module ActsAsSluggable
     else
       validates_uniqueness_of :slug
     end
-
   end
 
   def set_slug
@@ -101,8 +100,25 @@ module ActsAsSluggable
   end
 
   def to_param
-    (slug.present? rescue false) ? "#{id}-#{slug_was}" : super
+    (slug.present? rescue false) ? slug_was : super
   end
+
+  module ClassMethods
+    def relation
+      super.tap { |relation| relation.extend(FinderMethods) }
+    end
+  end
+
+  module FinderMethods
+    def find(*args)
+      args.first.to_i > 0 ? super : find_by_slug(args)
+    end
+
+    def exists?(*args)
+      args.first.to_i > 0 ? super : (find_by_slug(args).present? rescue false)
+    end
+  end
+
 
 end
 

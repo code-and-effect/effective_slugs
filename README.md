@@ -1,10 +1,10 @@
 # Effective Slugs
 
-Automatically generate URL-appropriate slugs when saving a record. Rails 3 only.
+Automatically generate URL-appropriate slugs when saving a record.
 
-Also overrides ActiveRecord .find() methods to accept the slug, or an id as the parameter.
+Also overrides ActiveRecord's .find() method to accept the slug, or an id as the parameter.
 
-Rails >= 3.2.x, Ruby >= 1.9.x.  Has not been tested/developed for Rails4.
+Rails 3.2.x and Rails 4.
 
 
 ## Getting Started
@@ -72,7 +72,7 @@ def should_generate_new_slug?
 end
 ```
 
-The slug is generated based on the slug_source instance method, which can also be overridden by adding the following instance method to the model:
+The slug is generated based on an object's `slug_source` method, which can also be overridden by adding the following to the model:
 
 ```ruby
 def slug_source
