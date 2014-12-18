@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/code-and-effect/effective_slugs"
   s.summary     = "Automatically generate URL-appropriate slugs when saving a record."
   s.description = "Automatically generate URL-appropriate slugs when saving a record."
+  s.licenses    = ['MIT']
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
