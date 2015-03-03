@@ -111,11 +111,17 @@ module ActsAsSluggable
 
   module FinderMethods
     def find(*args)
-      args.first.to_i > 0 ? super : find_by_slug(args)
+      regular_find?(args) ? super : find_by_slug(args)
     end
 
     def exists?(*args)
-      args.first.to_i > 0 ? super : (find_by_slug(args).present? rescue false)
+      regular_find?(args) ? super : (find_by_slug(args).present? rescue false)
+    end
+
+    private
+
+    def regular_find?(args)
+      args.first.is_a?(Array) || args.first.to_i > 0
     end
   end
 
