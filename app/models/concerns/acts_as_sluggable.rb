@@ -111,7 +111,11 @@ module ActsAsSluggable
 
   module FinderMethods
     def find(*args)
-      regular_find?(args) ? super : find_by_slug(args)
+      if regular_find?(args)
+        super
+      else
+        find_by_slug(args) or raise ::ActiveRecord::RecordNotFound
+      end
     end
 
     def exists?(*args)
