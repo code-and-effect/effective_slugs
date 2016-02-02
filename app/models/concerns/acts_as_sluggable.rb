@@ -109,10 +109,8 @@ module ActsAsSluggable
   end
 
   module ClassMethods
-    unless ::ActiveRecord::VERSION::MAJOR == 4 && ::ActiveRecord::VERSION::MINOR == 2
-      def relation
-        super.tap { |relation| relation.extend(FinderMethods) }
-      end
+    def relation
+      super.tap { |relation| relation.extend(FinderMethods) }
     end
   end
 
@@ -135,7 +133,5 @@ module ActsAsSluggable
       args.first.is_a?(Array) || args.first.to_i > 0
     end
   end
-
-
 end
 
