@@ -68,6 +68,10 @@ module ActsAsSluggable
     else
       validates_uniqueness_of :slug
     end
+
+    if ::ActiveRecord::VERSION::MAJOR == 4 && ::ActiveRecord::VERSION::MINOR == 2
+      extend FinderMethods
+    end
   end
 
   def set_slug
@@ -105,8 +109,10 @@ module ActsAsSluggable
   end
 
   module ClassMethods
-    def relation
-      super.tap { |relation| relation.extend(FinderMethods) }
+    unless ::ActiveRecord::VERSION::MAJOR == 4 && ::ActiveRecord::VERSION::MINOR == 2
+      def relation
+        super.tap { |relation| relation.extend(FinderMethods) }
+      end
     end
   end
 
