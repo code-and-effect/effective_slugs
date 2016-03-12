@@ -130,7 +130,8 @@ module ActsAsSluggable
     private
 
     def regular_find?(args)
-      args.first.is_a?(Array) || args.first.to_i > 0
+      first = args.first || ''.freeze
+      first.kind_of?(Array) || first.kind_of?(Integer) || (first.delete('^0-9').length == first.length)
     end
   end
 end
