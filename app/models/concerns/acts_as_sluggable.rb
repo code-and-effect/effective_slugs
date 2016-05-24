@@ -46,7 +46,7 @@ module ActsAsSluggable
   module ActiveRecord
     def acts_as_sluggable(options = {})
       if self.methods.include?(:is_site_specific) # ActsAsSiteSpecific
-        @acts_as_sluggable_opts = {:validation_scope => :site_id}.merge(options)
+        @acts_as_sluggable_opts = { validation_scope: :site_id }.merge(options)
       else
         @acts_as_sluggable_opts = {}.merge(options)
       end
@@ -56,18 +56,14 @@ module ActsAsSluggable
   end
 
   included do
-    before_validation :set_slug, :if => proc { should_generate_new_slug? }
+    before_validation :set_slug, if: proc { should_generate_new_slug? }
 
-    validates_presence_of :slug
-    validates_exclusion_of :slug, :in => EffectiveSlugs.all_excluded_slugs
-    validates_length_of :slug, :maximum => 255
-    validates_format_of :slug, :with => /\A[a-zA-Z0-9_-]*\z/, :message => 'only _ and - symbols allowed. no spaces either.'
-
-    if @acts_as_sluggable_opts[:validation_scope]
-      validates_uniqueness_of :slug, :scope => @acts_as_sluggable_opts[:validation_scope]
-    else
-      validates_uniqueness_of :slug
-    end
+    validates :slug,
+      exclusion: { in: EffectiveSlugs.all_excluded_slugs },
+      format: { with: /\A[a-zA-Z0-9_-]*\z/, message: 'only _ and - symbols allowed. no spaces either.' },
+      length: { maximum: 255 },
+      presence: true,
+      uniqueness: @acts_as_sluggable_opts[:validation_scope] ? { scope: @acts_as_sluggable_opts[:validation_scope] } : true
 
     if ::ActiveRecord::VERSION::MAJOR == 4 && ::ActiveRecord::VERSION::MINOR == 2
       extend FinderMethods
@@ -75,17 +71,17 @@ module ActsAsSluggable
   end
 
   def set_slug
-    raise StandardError, "ActsAsSluggable expected a table column :slug to exist" unless self.respond_to?(:slug)
+    raise StandardError, "ActsAsSluggable expected a table column :slug to exist" unless respond_to?(:slug)
 
     new_slug = slug_source.to_s.try(:parameterize)
 
     if new_slug.present?
       while EffectiveSlugs.excluded_slugs.include?(new_slug) do
-        new_slug << "-" << self.class.name.demodulize.parameterize
+        new_slug << '-'.freeze << self.class.name.demodulize.parameterize
       end
 
       # TODO: Could make this a bit smarter about conflicts
-      num_slugs = self.class.name.constantize.where(:slug => new_slug).count
+      num_slugs = self.class.name.constantize.where(slug: new_slug).count
       num_slugs = self.class.name.constantize.where('slug LIKE ?', "#{new_slug}%").count if num_slugs > 0
 
       num_slugs == 0 ? self.slug = new_slug : self.slug = "#{new_slug}-#{num_slugs}"
@@ -95,8 +91,8 @@ module ActsAsSluggable
   end
 
   def slug_source
-    return title if self.respond_to?(:title)
-    return name if self.respond_to?(:name)
+    return title if respond_to?(:title)
+    return name if respond_to?(:name)
     to_s
   end
 
@@ -116,23 +112,32 @@ module ActsAsSluggable
 
   module FinderMethods
     def find(*args)
-      if regular_find?(args)
-        super
+      first = args.first || ''.freeze
+      return super if first.kind_of?(Array) || first.kind_of?(Integer)
+
+      slug = first.to_s
+
+      if (slug.delete('^0-9'.freeze).length == slug.length)  # The slug could be '400'
+        find_by_slug(args) || find_by_id!(args)
       else
-        find_by_slug(args) or raise ::ActiveRecord::RecordNotFound
+        find_by_slug!(args)
       end
+
     end
 
     def exists?(*args)
-      regular_find?(args) ? super : (find_by_slug(args).present? rescue false)
-    end
-
-    private
-
-    def regular_find?(args)
       first = args.first || ''.freeze
-      first.kind_of?(Array) || first.kind_of?(Integer) || (first.delete('^0-9').length == first.length)
+      return super if first.kind_of?(Array) || first.kind_of?(Integer)
+
+      slug = first.to_s
+
+      if (slug.delete('^0-9'.freeze).length == slug.length)  # The slug could be '400'
+        (where(arel_table[:slug].eq(slug).or(arel_table[:id].eq(slug))).present? rescue false)
+      else
+        (find_by_slug(args).present? rescue false)
+      end
     end
+
   end
 end
 
