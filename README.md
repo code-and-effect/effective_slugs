@@ -47,7 +47,7 @@ As we're doing lookups on this column, a database index makes a lot of sense too
 rails generate migration add_slug_to_post slug:string:index
 ```
 
-which will create a migration something like
+which will create a migration something like:
 
 ```ruby
 class AddSlugToPost < ActiveRecord::Migration
@@ -55,6 +55,22 @@ class AddSlugToPost < ActiveRecord::Migration
     add_column :posts, :slug, :string
     add_index :posts, :slug
   end
+end
+```
+
+Then collect the slug field with your object's form.  The below example will not be displayed on a #new but it will on #edit or if the slug is in error.
+
+```haml
+- if f.object.persisted? || f.object.errors.include?(:slug)
+  - current_url = (post_path(f.object) rescue nil)
+  = f.input :slug, hint: "The slug controls this post's internet address. Be careful, changing the slug will break links that other websites may have to the old address.<br>#{('This post is currently reachable via ' + link_to(current_url.gsub(f.object.slug, '<strong>' + f.object.slug + '</strong>').html_safe, current_url)) if current_url }".html_safe
+```
+
+and include the permitted param within your controller:
+
+```ruby
+def permitted_params
+  params.require(:post).permit(:slug)
 end
 ```
 
