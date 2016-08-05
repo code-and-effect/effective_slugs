@@ -65,7 +65,7 @@ module ActsAsSluggable
       presence: true,
       uniqueness: @acts_as_sluggable_opts[:validation_scope] ? { scope: @acts_as_sluggable_opts[:validation_scope] } : true
 
-    extend FinderMethods if Gem::Version.new(Rails.version) > Gem::Version.new('4.2')
+    extend FinderMethods if Gem::Version.new(Rails.version) >= Gem::Version.new('4.2.0')
   end
 
   def set_slug
