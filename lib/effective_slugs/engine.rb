@@ -13,7 +13,7 @@ module EffectiveSlugs
 
     # Set up our default configuration options.
     initializer "effective_slugs.defaults", :before => :load_config_initializers do |app|
-      eval File.read("#{config.root}/lib/generators/templates/effective_slugs.rb")
+      eval File.read("#{config.root}/config/effective_slugs.rb")
     end
 
   end

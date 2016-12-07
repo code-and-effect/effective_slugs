@@ -19,5 +19,4 @@ module EffectiveSlugs
     (ActiveRecord::Base.connection.tables.map { |x| x }.compact + (EffectiveSlugs.excluded_slugs || []))
   end
 
-
 end
