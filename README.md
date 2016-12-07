@@ -127,9 +127,6 @@ Post.where(:slug => 'my-first-post').first
 
 MIT License.  Copyright [Code and Effect Inc.](http://www.codeandeffect.com/)
 
-Code and Effect is the product arm of [AgileStyle](http://www.agilestyle.com/), an Edmonton-based shop that specializes in building custom web applications with Ruby on Rails.
-
-
 ## Credits
 
 Some of the code in this gem was inspired by an old version of FriendlyId (https://github.com/FriendlyId/friendly_id)
