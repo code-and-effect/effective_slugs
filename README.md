@@ -1,11 +1,12 @@
 # Effective Slugs
 
+**This gem is no longer actively maintained**
+
 Automatically generate URL-appropriate slugs when saving a record.
 
 Also overrides ActiveRecord's .find() method to accept the slug, or an id as the parameter.
 
 Rails 3.2.x and Rails 4.
-
 
 ## Getting Started
 
