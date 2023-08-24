@@ -1,3 +1,5 @@
+require_relative '../../app/models/concerns/acts_as_sluggable.rb'
+
 module EffectiveSlugs
   class Engine < ::Rails::Engine
     engine_name 'effective_slugs'
